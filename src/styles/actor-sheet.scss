@@ -1,0 +1,138 @@
+@mixin styles {
+  &.sheet.actor {
+    &.character {
+      min-width : 600px;
+      min-height: 300px;
+    }
+
+    display       : flex;
+    flex-direction: column;
+
+    .input-group {
+      display       : flex;
+      flex-direction: column;
+
+      input {
+        margin-top: 4px;
+      }
+    }
+
+    .sheet-header {
+      flex: 0;
+      display: flex;
+      font-size: 2em;
+
+      input {
+        height : 1.5em;
+        padding: 1px 5px;
+        font-size: inherit;
+      }
+
+      .input-group.name { flex-basis: 85%; }
+      .input-group.pump { flex-basis: 15%; }
+    }
+
+    .divider {
+      flex: 0;
+      width : 100%;
+      margin: 1em 0;
+    }
+
+    .sheet-body {
+      flex: 1;
+      display       : flex;
+      flex-direction: column;
+
+      .sheet-tabs {
+        flex: 0;
+        font-weight  : bold;
+        margin-bottom: 1em;
+        padding      : 4px;
+        background   : #892481;
+        color        : white;
+        border-radius: 3px;
+
+        ul {
+          list-style: none;
+          padding   : 0;
+          margin    : 0;
+          display        : flex;
+          justify-content: space-around;
+          font-size: 1.3em;
+
+          .active { text-decoration: underline; }
+        }
+      }
+
+      .tab-body {
+        flex: 1;
+        display: flex;
+
+        .tab.active {
+          flex: 1;
+          display: flex;
+
+          .editor { flex: 1; }
+
+          &.cliche,
+          &.gear {
+            flex-direction: column;
+            margin: 0 1em;
+
+            .cliche-header,
+            .gear-header { font-weight: bold; }
+
+            .row {
+              display: flex;
+
+              &:not(:last-child) { border-bottom: 1px solid black; }
+
+              > * { padding: 4px 0; }
+              > *:not(:last-child) { padding-right: 8px; border-right: 1px solid black; }
+              > *:not(:first-child) { padding-left: 4px; }
+              > *:last-child { padding-right: 1px; }
+            }
+
+            &.cliche {
+              .name { flex: 1; flex-basis: 74%; }
+              .dice {
+                flex-basis: 14%;
+                text-align: right;
+                input { width: 100%; margin-left: 2px; text-align: right; }
+              }
+              .actions {
+                flex-basis: 14%;
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+
+                .roll-cliche.disabled { color: rgb(95, 95, 95); pointer-events: none; }
+                .save-cliche.modified { color: #b50808; }
+                a:not(:last-child) { margin-right: 8px; }
+              }
+            }
+
+            &.gear {
+              .name { flex: 1; flex-basis: 72%; }
+              .quantity {
+                flex-basis: 14%;
+                text-align: right;
+                input { width: 100%; margin-left: 2px; text-align: right; }
+              }
+              .actions {
+                flex-basis: 14%;
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+
+                .save-gear.modified { color: #b50808; }
+                .edit-gear.disabled { color: rgb(95, 95, 95); pointer-events: none; }
+                a:not(:last-child) { margin-right: 8px; }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

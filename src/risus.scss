@@ -1,0 +1,15 @@
+/* ------------------------------------ */
+/*              Sass                    */
+/* This is your Sass entry file         */
+/* ------------------------------------ */
+
+// Use modern @use syntax (Dart Sass 1.23+)
+@use 'styles/shared' as shared;
+@use 'styles/actor-sheet' as actor-sheet;
+@use 'styles/item-sheet' as item-sheet;
+
+.risus {
+  @include shared.styles;
+  @include actor-sheet.styles;
+  @include item-sheet.styles;
+}

@@ -1,0 +1,86 @@
+name: Release
+
+# Triggered when you push a version tag (e.g. git tag v0.2.0 && git push --tags)
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  PACKAGE_NAME: risus       # Must match system.json "name"
+  NODE_VERSION: '20'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # Required to create GitHub Releases
+
+    steps:
+      # ── 1. Checkout source ──────────────────────────────────────────────────
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js setup ────────────────────────────────────────────────────
+      - name: Setup Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      # ── 3. Extract version from tag (v0.2.0 → 0.2.0) ───────────────────────
+      - name: Get version
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      # ── 4. Install & build ──────────────────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npx gulp build
+
+      # ── 5. Update system.json with release URLs ─────────────────────────────
+      #   manifest → /releases/latest/download/system.json  (Foundry polls this for updates)
+      #   download → /releases/download/vX.Y.Z/risus-vX.Y.Z.zip  (version-pinned)
+      - name: Set release URLs in system.json
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          BASE="https://github.com/${{ github.repository }}"
+          node -e "
+            const fs = require('fs');
+            const json = JSON.parse(fs.readFileSync('dist/system.json', 'utf8'));
+            json.version  = '${VERSION}';
+            json.manifest = '${BASE}/releases/latest/download/system.json';
+            json.download = '${BASE}/releases/download/v${VERSION}/${{ env.PACKAGE_NAME }}-v${VERSION}.zip';
+            fs.writeFileSync('dist/system.json', JSON.stringify(json, null, 2) + '\n');
+            console.log('Updated system.json →', JSON.stringify({version: json.version, manifest: json.manifest, download: json.download}, null, 2));
+          "
+
+      # ── 6. Create the installable ZIP ───────────────────────────────────────
+      #   Structure inside ZIP: risus/risus.js, risus/system.json, …
+      - name: Create ZIP
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          mkdir -p package
+          cd dist
+          zip -r "../package/${{ env.PACKAGE_NAME }}-v${VERSION}.zip" . \
+            --exclude "*.ts"    \
+            --exclude "*.d.ts"  \
+            --exclude "*.js.map"
+
+      # ── 7. Copy system.json as a standalone release asset ───────────────────
+      - name: Copy system.json
+        run: cp dist/system.json package/system.json
+
+      # ── 8. Create GitHub Release with both assets ───────────────────────────
+      #   Users install via: paste manifest URL into Foundry → Install System
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: v${{ steps.version.outputs.VERSION }}
+          generate_release_notes: true
+          files: |
+            package/${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}.zip
+            package/system.json

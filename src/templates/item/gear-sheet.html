@@ -1,0 +1,13 @@
+<form class="{{cssClass}} gear flexcol" autocomplete="off">
+  <header class="sheet-header">
+    <input class="name" type="text" name="name" value="{{item.name}}" data-dtype="String" />
+    {{!-- V13: system.quantity instead of data.quantity --}}
+    <input class="quantity" type="number" name="system.quantity" value="{{item.system.quantity}}" min="0" max="999"
+      data-dtype="Number" />
+  </header>
+
+  <div class="sheet-body">
+    {{!-- V13: system.description.value instead of data.description.value --}}
+    <textarea id="description" class="description" name="system.description.value">{{item.system.description.value}}</textarea>
+  </div>
+</form>

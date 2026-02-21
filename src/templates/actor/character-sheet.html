@@ -1,0 +1,93 @@
+<form class="{{cssClass}} character flexcol" autocomplete="off">
+
+  <header class="sheet-header">
+    <div class="input-group name">
+      <label for="name">Character</label>
+      <input class="name" type="text" name="name" value="{{actor.name}}" data-dtype="String" />
+    </div>
+
+    {{#if showPump}}
+    <div class="input-group pump">
+      <label for="system.pump.value">Pump</label>
+      {{!-- V13: system.pump.value instead of data.pump.value --}}
+      <input class="pump" type="number" name="system.pump.value" value="{{actor.system.pump.value}}" min="0" max="99"
+        data-dtype="Number" />
+    </div>
+    {{/if}}
+  </header>
+
+  <hr class="divider">
+
+  <section class="sheet-body">
+    <nav class="sheet-tabs" data-group="primary">
+      <ul>
+        <li>
+          <a class="item" title="{{localize 'risus.tooltip.bio'}}" data-tab="bio">{{localize 'risus.tab.bio'}}</a>
+        </li>
+        <li>
+          <a class="item" title="{{localize 'risus.tooltip.cliche'}}" data-tab="cliche">{{localize
+            'risus.tab.cliche'}}</a>
+        </li>
+        <li>
+          <a class="item" title="{{localize 'risus.tooltip.gear'}}" data-tab="gear">{{localize 'risus.tab.gear'}}</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="tab-body">
+      <div class="tab bio" data-group="primary" data-tab="bio">
+        {{!-- V13: system.details.biography.value instead of data.biography.value --}}
+        {{editor content=actor.system.details.biography.value target="system.details.biography.value" button=true owner=owner editable=editable}}
+      </div>
+
+      <div class="tab cliche" data-group="primary" data-tab="cliche">
+        <div class="row cliche-header">
+          <div class="name">Name</div>
+          <div class="dice">Dice</div>
+          <div class="actions"><a class="add-cliche"><i class="fa fa-plus"></i></a></div>
+        </div>
+
+        {{#each cliches as |cliche|}}
+        <div class="row cliche" data-cliche-id="{{cliche.id}}">
+          <div class="name">
+            <input type="text" name="clicheName" value="{{clicheName cliche}}" data-dtype="String" />
+          </div>
+          <div class="dice">
+            <input type="number" name="clicheDice" value="{{clicheDice cliche}}" min="0" max="10" data-dtype="Number" />
+          </div>
+          <div class="actions">
+            <a class="roll-cliche {{#if (clicheModified cliche)}}disabled{{/if}}"><i class="fa fa-dice-d20"></i></a>
+            <a class="save-cliche {{#if (clicheModified cliche)}}modified{{/if}}"><i class="fa fa-save"></i></a>
+            <a class="delete-cliche"><i class="fa fa-trash"></i></a>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+
+      <div class="tab gear" data-group="primary" data-tab="gear">
+        <div class="row gear-header">
+          <div class="name">Name</div>
+          <div class="quantity">Quantity</div>
+          <div class="actions"><a class="add-gear"><i class="fa fa-plus"></i></a></div>
+        </div>
+
+        {{#each gear as |item|}}
+        <div class="row gear" data-gear-id="{{item.id}}">
+          <div class="name">
+            <input type="text" name="gearName" value="{{gearName item}}" data-dtype="String" />
+          </div>
+          <div class="quantity">
+            <input type="number" name="gearQuantity" value="{{gearQuantity item}}" min="0" max="999"
+              data-dtype="Number" />
+          </div>
+          <div class="actions">
+            <a class="save-gear {{#if (gearModified item)}}modified{{/if}}"><i class="fa fa-save"></i></a>
+            <a class="edit-gear {{#if (gearModified item)}}disabled{{/if}}"><i class="fa fa-edit"></i></a>
+            <a class="delete-gear"><i class="fa fa-trash"></i></a>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </section>
+</form>

@@ -1,0 +1,51 @@
+{
+  "Actor": {
+    "types": [
+      "character"
+    ],
+    "templates": {
+      "common": {
+        "version": 1
+      }
+    },
+    "character": {
+      "templates": [
+        "common"
+      ],
+      "details": {
+        "biography": {
+          "value": ""
+        }
+      },
+      "pump": {
+        "value": 0
+      }
+    }
+  },
+  "Item": {
+    "types": [
+      "cliche",
+      "gear"
+    ],
+    "templates": {
+      "common": {
+        "version": 1
+      }
+    },
+    "cliche": {
+      "templates": [
+        "common"
+      ],
+      "dice": 0
+    },
+    "gear": {
+      "templates": [
+        "common"
+      ],
+      "description": {
+        "value": ""
+      },
+      "quantity": 1
+    }
+  }
+}

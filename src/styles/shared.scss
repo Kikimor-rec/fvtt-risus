@@ -1,0 +1,76 @@
+@mixin styles {
+  &.sheet {
+    .input-group {
+
+      label,
+      .label {
+        font-weight: bold;
+        line-height: 24px;
+      }
+    }
+
+    .progress {
+      display        : flex;
+      flex-direction : row;
+      justify-content: center;
+
+      .pip {
+        margin: 0 4px;
+
+        width : 24px;
+        height: 24px;
+        border: 2px solid #505050;
+
+        &.hover {
+          background: #b9b9b9;
+        }
+
+        &.active {
+          background: #7c7c7c;
+        }
+      }
+    }
+  }
+
+  textarea {
+    font-family: Signika, sans-serif;
+  }
+
+  .editor {
+    font-family: Signika, sans-serif;
+
+    // For EasyMDE
+    .EasyMDEContainer {
+
+      .preview,
+      .side-by-side,
+      .fullscreen,
+      .guide,
+      .separator:nth-of-type(4),
+      .separator:nth-of-type(5) {
+        display: none;
+      }
+    }
+  }
+
+  // Make number inputs look more like normal inputs
+  input[type="number"] {
+    height       : 24px;
+    background   : rgba(0, 0, 0, 0.05);
+    padding      : 1px 3px;
+    margin       : 0;
+    color        : #191813;
+    border       : 1px solid #7a7971;
+    border-radius: 3px;
+    user-select  : text;
+
+    // Hide number input spinners
+    -moz-appearance: textfield;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin            : 0;
+    }
+  }
+}

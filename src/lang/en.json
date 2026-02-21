@@ -1,0 +1,15 @@
+{
+  "Risus": "Risus",
+  "SETTINGS.name.showPump": "Show Pump",
+  "SETTINGS.hint.showPump": "Does this game support the pump optional rule",
+  "SETTINGS.name.defaultPump": "Default Pump Points",
+  "SETTINGS.hint.defaultPump": "Amount of pump points characters start with",
+  "risus.tooltip.bio": "Biography",
+  "risus.tooltip.cliche": "Cliches",
+  "risus.tooltip.gear": "Gear",
+  "risus.tab.bio": "Biography",
+  "risus.tab.cliche": "Cliches",
+  "risus.tab.gear": "Gear",
+  "risus.roll.cliche.title": "Cliche Roll",
+  "risus.roll.cliche.flavor": "##ACTOR## is rolling with their ##CLICHE## cliche!"
+}
