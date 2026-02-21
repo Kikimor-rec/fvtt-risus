@@ -1,10 +1,10 @@
 name: Release
 
-# Triggered when you push a version tag (e.g. git tag v0.2.0 && git push --tags)
+# Triggered on every push to main
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - main
 
 env:
   PACKAGE_NAME: risus       # Must match system.json "name"
@@ -28,10 +28,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      # ── 3. Extract version from tag (v0.2.0 → 0.2.0) ───────────────────────
+      # ── 3. Extract version from system.json ─────────────────────────────────
       - name: Get version
         id: version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+        run: |
+          VERSION=$(node -e "console.log(require('./src/system.json').version)")
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
 
       # ── 4. Install & build ──────────────────────────────────────────────────
       - name: Install dependencies
@@ -81,6 +83,7 @@ jobs:
           tag_name: v${{ steps.version.outputs.VERSION }}
           name: v${{ steps.version.outputs.VERSION }}
           generate_release_notes: true
+          make_latest: true
           files: |
             package/${{ env.PACKAGE_NAME }}-v${{ steps.version.outputs.VERSION }}.zip
             package/system.json
