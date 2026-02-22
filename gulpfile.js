@@ -215,7 +215,8 @@ async function packageBuild() {
 			fs.ensureDirSync('package');
 
 			// Initialize the zip file
-			const zipName = `${manifest.file.name}-v${manifest.file.version}.zip`;
+			const pkgId = manifest.file.id || manifest.file.name;
+			const zipName = `${pkgId}-v${manifest.file.version}.zip`;
 			const zipFile = fs.createWriteStream(path.join('package', zipName));
 			const zip = archiver('zip', { zlib: { level: 9 } });
 
@@ -234,7 +235,7 @@ async function packageBuild() {
 			zip.pipe(zipFile);
 
 			// Add the directory with the final code
-			zip.directory('dist/', manifest.file.name);
+			zip.directory('dist/', pkgId);
 
 			zip.finalize();
 		} catch (err) {
@@ -329,7 +330,8 @@ function updateManifest(cb) {
 		// download: version-pinned ZIP asset — prevents old installations from breaking
 		manifest.file.url = repoURL;
 		manifest.file.manifest = `${repoURL}/releases/latest/download/${manifest.name}`;
-		manifest.file.download = `${repoURL}/releases/download/v${manifest.file.version}/${manifest.file.name}-v${manifest.file.version}.zip`;
+		const pkgId = manifest.file.id || manifest.file.name;
+		manifest.file.download = `${repoURL}/releases/download/v${manifest.file.version}/${pkgId}-v${manifest.file.version}.zip`;
 
 		const prettyProjectJson = stringify(manifest.file, {
 			maxLength: 35,
