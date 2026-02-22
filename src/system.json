@@ -2,7 +2,7 @@
   "id": "risus",
   "title": "Risus",
   "description": "Risus: The Anything RPG — FoundryVTT V13 system (maintained by Kikimor-rec)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "authors": [
     {
       "name": "Kikimor-rec",
@@ -29,7 +29,7 @@
   },
   "url": "https://github.com/Kikimor-rec/FoundryVTT-Risus",
   "manifest": "https://github.com/Kikimor-rec/FoundryVTT-Risus/releases/latest/download/system.json",
-  "download": "https://github.com/Kikimor-rec/FoundryVTT-Risus/releases/download/v0.1.0/risus-v0.1.0.zip",
+  "download": "https://github.com/Kikimor-rec/FoundryVTT-Risus/releases/download/v0.1.1/risus-v0.1.1.zip",
   "license": "MIT",
   "readme": "",
   "bugs": "https://github.com/Kikimor-rec/FoundryVTT-Risus/issues",
