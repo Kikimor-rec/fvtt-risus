@@ -14,26 +14,13 @@ export class RisusItemSheet extends ItemSheet {
   }
 
   getData() {
-    const data = super.getData() as any;
-
-    // V13: item.type instead of item.data.type
-    const type = this.item.type;
-    switch (type) {
-    }
-
-    return data;
+    return super.getData();
   }
 
   activateListeners(html: JQuery) {
     super.activateListeners(html);
 
-    // V13: item.type instead of item.data.type
-    const type = this.item.type;
-
     const window = html.closest('.window-app');
-    window.addClass(type);
-
-    switch (type) {
-    }
+    window.addClass(this.item.type);
   }
 }
