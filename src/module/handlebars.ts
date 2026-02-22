@@ -1,18 +1,11 @@
 export const registerHandlebars = () => {
-  Handlebars.registerHelper('repeat', (times, block) => {
-    const out = [];
-    const data = {
-      index: 0
-    };
+  Handlebars.registerHelper('repeat', function(this: any, times: number, block: any) {
+    const out: string[] = [];
+    const data = { index: 0 };
 
     for (let i = 0; i < times; i++) {
       data.index = i;
-
-      out.push(
-        block.fn(this, {
-          data
-        })
-      );
+      out.push(block.fn(this, { data }));
     }
 
     return out.join('');

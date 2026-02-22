@@ -119,6 +119,7 @@ export class RisusCharacterSheet extends ActorSheet {
       // V13: item.system instead of item.data.data
       const numDice = (cliche.system as any).dice;
       const roll = new Roll(`${numDice}d6`);
+      await roll.evaluate();
 
       await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor }),
